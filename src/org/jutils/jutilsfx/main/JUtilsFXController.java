@@ -21,7 +21,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.layout.AnchorPane;
+import org.jutils.jutilsfx.jhardware.HardwareType;
+import org.jutils.jutilsfx.jhardware.JHardwareFXController;
 
 /**
  * FXML Controller class
@@ -35,9 +38,15 @@ public class JUtilsFXController implements Initializable {
 
     @FXML
     protected void handleJHardwareAction(ActionEvent event) throws Exception {
-        AnchorPane panel = FXMLLoader.load(getClass().getResource("/org/jutils/jutilsfx/jhardware/JHardwareFX.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/jutils/jutilsfx/jhardware/JHardwareFX.fxml"));
+        AnchorPane panel = loader.load();
         panel.prefWidthProperty().bind(mainPanel.widthProperty());
         panel.prefHeightProperty().bind(mainPanel.heightProperty());
+
+        //Set hardwareinfo type to controller
+        JHardwareFXController controller = loader.<JHardwareFXController>getController();
+        controller.loadData(HardwareType.fromLabel(((Hyperlink) event.getSource()).getText()));
+
         mainPanel.getChildren().add(panel);
     }
 
@@ -48,7 +57,7 @@ public class JUtilsFXController implements Initializable {
         panel.prefHeightProperty().bind(mainPanel.heightProperty());
         mainPanel.getChildren().add(panel);
     }
-    
+
     @FXML
     protected void handleJServicesAction(ActionEvent event) throws Exception {
         Alert alert = new Alert(Alert.AlertType.WARNING, "Still not implemented", ButtonType.OK);

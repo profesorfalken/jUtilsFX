@@ -57,7 +57,7 @@ public class JProcessesFXController implements Initializable {
         List<ProcessesInfo> processesList = JProcesses.getProcessList();
         
         for(final ProcessesInfo process : processesList) {
-            tableItems.add(FXCollections.observableArrayList(process.getPid(), process.getName(), process.getTime()));
+            tableItems.add(FXCollections.observableArrayList(process.getPid(), process.getTime(), process.getName()));
         }       
         
         processesTable.setItems(tableItems);

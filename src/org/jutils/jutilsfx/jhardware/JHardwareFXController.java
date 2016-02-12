@@ -13,19 +13,20 @@
  */
 package org.jutils.jutilsfx.jhardware;
 
-import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.Map.Entry;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.util.Callback;
 import org.jutils.jhardware.HardwareInfo;
+import org.jutils.jhardware.model.BiosInfo;
+import org.jutils.jhardware.model.MemoryInfo;
+import org.jutils.jhardware.model.MotherboardInfo;
 import org.jutils.jhardware.model.ProcessorInfo;
 
 /**
@@ -33,7 +34,7 @@ import org.jutils.jhardware.model.ProcessorInfo;
  *
  * @author Javier Garcia Alonso
  */
-public class JHardwareFXController implements Initializable {
+public class JHardwareFXController {
 
     @FXML
     private TableView propertiesTable;
@@ -45,25 +46,58 @@ public class JHardwareFXController implements Initializable {
     private TableColumn valueColumn;
 
     /**
-     * Initializes the controller class.
-     * @param url
-     * @param rb
+     * Loads controller data
+     *
+     * @param hardwareType type of hardwareinfo to load
      */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void loadData(HardwareType hardwareType) {
         ObservableList<ObservableList<String>> tableItems = FXCollections.observableArrayList();
 
-        ProcessorInfo cpuInfo = HardwareInfo.getProcessorInfo();
-        tableItems.add(FXCollections.observableArrayList("Family", cpuInfo.getFamily()));
-        tableItems.add(FXCollections.observableArrayList("Speed Mhz", cpuInfo.getMhz()));
-        tableItems.add(FXCollections.observableArrayList("Model", cpuInfo.getModel()));
-        tableItems.add(FXCollections.observableArrayList("Model Name", cpuInfo.getModelName()));
-        tableItems.add(FXCollections.observableArrayList("Num cores", cpuInfo.getNumCores()));
-        tableItems.add(FXCollections.observableArrayList("Stepping", cpuInfo.getStepping()));
-        tableItems.add(FXCollections.observableArrayList("Temperature", cpuInfo.getTemperature()));
-        tableItems.add(FXCollections.observableArrayList("Vendor Id", cpuInfo.getVendorId()));
-        tableItems.add(FXCollections.observableArrayList("Cache Size", cpuInfo.getCacheSize()));
-        //Here the code for the query
+        switch (hardwareType) {
+            case CPU:
+                ProcessorInfo cpuInfo = HardwareInfo.getProcessorInfo();
+                /*tableItems.add(FXCollections.observableArrayList("Family", cpuInfo.getFamily()));
+                 tableItems.add(FXCollections.observableArrayList("Speed Mhz", cpuInfo.getMhz()));
+                 tableItems.add(FXCollections.observableArrayList("Model", cpuInfo.getModel()));
+                 tableItems.add(FXCollections.observableArrayList("Model Name", cpuInfo.getModelName()));
+                 tableItems.add(FXCollections.observableArrayList("Num cores", cpuInfo.getNumCores()));
+                 tableItems.add(FXCollections.observableArrayList("Stepping", cpuInfo.getStepping()));
+                 tableItems.add(FXCollections.observableArrayList("Temperature", cpuInfo.getTemperature()));
+                 tableItems.add(FXCollections.observableArrayList("Vendor Id", cpuInfo.getVendorId()));
+                 tableItems.add(FXCollections.observableArrayList("Cache Size", cpuInfo.getCacheSize()));*/
+                for (final Entry<String, String> entry : cpuInfo.getFullInfo().entrySet()) {
+                    tableItems.add(FXCollections.observableArrayList(entry.getKey(), entry.getValue()));
+                }
+                break;
+            case MEMORY:
+                MemoryInfo memoryInfo = HardwareInfo.getMemoryInfo();
+                /*tableItems.add(FXCollections.observableArrayList("Available Memory", memoryInfo.getAvailableMemory()));
+                 tableItems.add(FXCollections.observableArrayList("Free Memory", memoryInfo.getFreeMemory()));
+                 tableItems.add(FXCollections.observableArrayList("Total Memory", memoryInfo.getTotalMemory()));*/
+                for (final Entry<String, String> entry : memoryInfo.getFullInfo().entrySet()) {
+                    tableItems.add(FXCollections.observableArrayList(entry.getKey(), entry.getValue()));
+                }
+                break;
+            case MOTHERBOARD:
+                MotherboardInfo motherboardInfo = HardwareInfo.getMotherboardInfo();
+                /*tableItems.add(FXCollections.observableArrayList("Manufacturer", motherboardInfo.getManufacturer()));
+                 tableItems.add(FXCollections.observableArrayList("Name", motherboardInfo.getName()));
+                 tableItems.add(FXCollections.observableArrayList("Version", motherboardInfo.getVersion()));*/
+                for (final Entry<String, String> entry : motherboardInfo.getFullInfo().entrySet()) {
+                    tableItems.add(FXCollections.observableArrayList(entry.getKey(), entry.getValue()));
+                }
+                break;
+            case BIOS:
+                BiosInfo biosInfo = HardwareInfo.getBiosInfo();
+                /*tableItems.add(FXCollections.observableArrayList("Date", biosInfo.getDate()));
+                 tableItems.add(FXCollections.observableArrayList("Manufacturer", biosInfo.getManufacturer()));
+                 tableItems.add(FXCollections.observableArrayList("Version", biosInfo.getVersion()));*/
+                for (final Entry<String, String> entry : biosInfo.getFullInfo().entrySet()) {
+                    tableItems.add(FXCollections.observableArrayList(entry.getKey(), entry.getValue()));
+                }
+                break;
+        }
+
         propertiesTable.setItems(tableItems);
 
         propertyColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ObservableList<String>, String>, ObservableValue<String>>() {

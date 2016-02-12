@@ -26,6 +26,14 @@
                            <font>
                               <Font size="16.0" />
                            </font></Hyperlink>
+                        <VBox prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <Hyperlink onAction="#handleJHardwareAction" text="CPU" />
+                              <Hyperlink onAction="#handleJHardwareAction" text="Memory" />
+                              <Hyperlink onAction="#handleJHardwareAction" text="Motherboard" />
+                              <Hyperlink onAction="#handleJHardwareAction" text="Bios" />
+                           </children>
+                        </VBox>
                         <Hyperlink onAction="#handleJProcessesAction" text="jProcesses">
                            <font>
                               <Font size="16.0" />
