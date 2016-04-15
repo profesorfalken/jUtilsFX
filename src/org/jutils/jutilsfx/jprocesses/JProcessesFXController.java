@@ -28,7 +28,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.util.Callback;
 import org.jutils.jprocesses.JProcesses;
-import org.jutils.jprocesses.model.ProcessesInfo;
+import org.jutils.jprocesses.model.ProcessInfo;
 
 /**
  * FXML Controller class
@@ -54,9 +54,9 @@ public class JProcessesFXController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         tableItems = FXCollections.observableArrayList();
 
-        List<ProcessesInfo> processesList = JProcesses.getProcessList();
+        List<ProcessInfo> processesList = JProcesses.getProcessList();
         
-        for(final ProcessesInfo process : processesList) {
+        for(final ProcessInfo process : processesList) {
             tableItems.add(FXCollections.observableArrayList(process.getPid(), process.getTime(), process.getName()));
         }       
         
