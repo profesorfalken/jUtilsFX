@@ -13,6 +13,7 @@
  */
 package org.jutils.jutilsfx.jhardware;
 
+import java.util.List;
 import java.util.Map.Entry;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
@@ -27,6 +28,9 @@ import org.jutils.jhardware.HardwareInfo;
 import org.jutils.jhardware.model.BiosInfo;
 import org.jutils.jhardware.model.MemoryInfo;
 import org.jutils.jhardware.model.MotherboardInfo;
+import org.jutils.jhardware.model.NetworkInfo;
+import org.jutils.jhardware.model.NetworkInterfaceInfo;
+import org.jutils.jhardware.model.OSInfo;
 import org.jutils.jhardware.model.ProcessorInfo;
 
 /**
@@ -94,6 +98,26 @@ public class JHardwareFXController {
                  tableItems.add(FXCollections.observableArrayList("Version", biosInfo.getVersion()));*/
                 for (final Entry<String, String> entry : biosInfo.getFullInfo().entrySet()) {
                     tableItems.add(FXCollections.observableArrayList(entry.getKey(), entry.getValue()));
+                }
+                break;
+            case OS:
+                OSInfo osInfo = HardwareInfo.getOSInfo();
+                for (final Entry<String, String> entry : osInfo.getFullInfo().entrySet()) {
+                    tableItems.add(FXCollections.observableArrayList(entry.getKey(), entry.getValue()));
+                }
+                break;
+            case NETWORK:
+                NetworkInfo networkInfo = HardwareInfo.getNetworkInfo();
+                List<NetworkInterfaceInfo> networkInterfaces = networkInfo.getNetworkInterfaces();
+                for (final NetworkInterfaceInfo networkInterface : networkInterfaces) {
+                    tableItems.add(FXCollections.observableArrayList("Name", networkInterface.getName()));
+                    tableItems.add(FXCollections.observableArrayList("Type", networkInterface.getType()));
+                    tableItems.add(FXCollections.observableArrayList("IP v4", networkInterface.getIpv4()));
+                    tableItems.add(FXCollections.observableArrayList("IP v6", networkInterface.getIpv6()));
+                    tableItems.add(FXCollections.observableArrayList("Received Bytes", networkInterface.getReceivedBytes()));
+                    tableItems.add(FXCollections.observableArrayList("Received Packets", networkInterface.getReceivedPackets()));
+                    tableItems.add(FXCollections.observableArrayList("Transmitted Bytes", networkInterface.getTransmittedBytes()));
+                    tableItems.add(FXCollections.observableArrayList("Transmitted Packets", networkInterface.getTransmittedPackets()));
                 }
                 break;
         }

@@ -32,6 +32,8 @@
                               <Hyperlink onAction="#handleJHardwareAction" text="Memory" />
                               <Hyperlink onAction="#handleJHardwareAction" text="Motherboard" />
                               <Hyperlink onAction="#handleJHardwareAction" text="Bios" />
+                              <Hyperlink onAction="#handleJHardwareAction" text="OS" />
+                              <Hyperlink onAction="#handleJHardwareAction" text="Network" />
                            </children>
                         </VBox>
                         <Hyperlink onAction="#handleJProcessesAction" text="jProcesses">

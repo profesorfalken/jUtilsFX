@@ -20,15 +20,20 @@ package org.jutils.jutilsfx.jhardware;
  * @author Javier Garcia Alonso
  */
 public enum HardwareType {
-    CPU,MEMORY,MOTHERBOARD,BIOS;
-    
+
+    CPU, MEMORY, MOTHERBOARD, BIOS, OS, NETWORK;
+
     public static HardwareType fromLabel(String label) {
         if ("Memory".equals(label)) {
-            return  MEMORY;
+            return MEMORY;
         } else if ("Motherboard".equals(label)) {
-            return  MOTHERBOARD;
+            return MOTHERBOARD;
         } else if ("Bios".equals(label)) {
-            return  BIOS;
+            return BIOS;
+        } else if ("OS".equals(label)) {
+            return OS;
+        } else if ("Network".equals(label)) {
+            return NETWORK;
         }
         //Default
         return CPU;
