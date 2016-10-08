@@ -15,6 +15,10 @@ package org.jutils.jutilsfx.main;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import org.jutils.jutilsfx.jhardware.HardwareType;
+import org.jutils.jutilsfx.jhardware.JHardwareFXController;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,8 +27,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.layout.AnchorPane;
-import org.jutils.jutilsfx.jhardware.HardwareType;
-import org.jutils.jutilsfx.jhardware.JHardwareFXController;
 
 /**
  * FXML Controller class
@@ -64,7 +66,6 @@ public class JUtilsFXController implements Initializable {
         alert.show();
     }
 
-    @Override
     public void initialize(URL location, ResourceBundle resources) {
         //Insert initialization here
     }

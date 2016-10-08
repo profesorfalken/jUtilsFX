@@ -15,6 +15,16 @@ package org.jutils.jutilsfx.jhardware;
 
 import java.util.List;
 import java.util.Map.Entry;
+
+import org.jutils.jhardware.HardwareInfo;
+import org.jutils.jhardware.model.BiosInfo;
+import org.jutils.jhardware.model.MemoryInfo;
+import org.jutils.jhardware.model.MotherboardInfo;
+import org.jutils.jhardware.model.NetworkInfo;
+import org.jutils.jhardware.model.NetworkInterfaceInfo;
+import org.jutils.jhardware.model.OSInfo;
+import org.jutils.jhardware.model.ProcessorInfo;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -24,14 +34,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.util.Callback;
-import org.jutils.jhardware.HardwareInfo;
-import org.jutils.jhardware.model.BiosInfo;
-import org.jutils.jhardware.model.MemoryInfo;
-import org.jutils.jhardware.model.MotherboardInfo;
-import org.jutils.jhardware.model.NetworkInfo;
-import org.jutils.jhardware.model.NetworkInterfaceInfo;
-import org.jutils.jhardware.model.OSInfo;
-import org.jutils.jhardware.model.ProcessorInfo;
 
 /**
  * FXML Controller class
@@ -125,14 +127,12 @@ public class JHardwareFXController {
         propertiesTable.setItems(tableItems);
 
         propertyColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ObservableList<String>, String>, ObservableValue<String>>() {
-            @Override
             public ObservableValue<String> call(CellDataFeatures<ObservableList<String>, String> cdf) {
                 return new SimpleStringProperty(cdf.getValue().get(0));
             }
         });
 
         valueColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ObservableList<String>, String>, ObservableValue<String>>() {
-            @Override
             public ObservableValue<String> call(CellDataFeatures<ObservableList<String>, String> cdf) {
                 return new SimpleStringProperty(cdf.getValue().get(1));
             }
