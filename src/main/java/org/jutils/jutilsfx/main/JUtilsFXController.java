@@ -48,6 +48,10 @@ public class JUtilsFXController implements Initializable {
         //Set hardwareinfo type to controller
         JHardwareFXController controller = loader.<JHardwareFXController>getController();
         controller.loadData(HardwareType.fromLabel(((Hyperlink) event.getSource()).getText()));
+        
+        if (mainPanel.getChildren().size() > 0) {
+        	mainPanel.getChildren().remove(0);
+        }
 
         mainPanel.getChildren().add(panel);
     }
@@ -57,6 +61,10 @@ public class JUtilsFXController implements Initializable {
         AnchorPane panel = FXMLLoader.load(getClass().getResource("/org/jutils/jutilsfx/jprocesses/JProcessesFX.fxml"));
         panel.prefWidthProperty().bind(mainPanel.widthProperty());
         panel.prefHeightProperty().bind(mainPanel.heightProperty());
+        
+        if (mainPanel.getChildren().size() > 0) {
+        	mainPanel.getChildren().remove(0);
+        }
         mainPanel.getChildren().add(panel);
     }
 

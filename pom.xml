@@ -35,7 +35,6 @@
 		</plugins>
 	</build>
 	<dependencies>
-
 		<dependency>
 			<groupId>org.jprocesses</groupId>
 			<artifactId>jProcesses</artifactId>
@@ -46,6 +45,5 @@
 			<artifactId>jHardware</artifactId>
 			<version>0.8.3</version>
 		</dependency>
-
 	</dependencies>
 </project>

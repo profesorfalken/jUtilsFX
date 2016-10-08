@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.image.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.jutils.jutilsfx.main.JUtilsFXController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.jutils.jutilsfx.main.JUtilsFXController">
    <children>
       <SplitPane dividerPositions="0.2" layoutX="143.0" layoutY="97.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
@@ -34,6 +32,8 @@
                               <Hyperlink onAction="#handleJHardwareAction" text="Bios" />
                               <Hyperlink onAction="#handleJHardwareAction" text="OS" />
                               <Hyperlink onAction="#handleJHardwareAction" text="Network" />
+                              <Hyperlink onAction="#handleJHardwareAction" text="Display" />
+                              <Hyperlink onAction="#handleJHardwareAction" text="Graphics Card" />
                            </children>
                         </VBox>
                         <Hyperlink onAction="#handleJProcessesAction" text="jProcesses">

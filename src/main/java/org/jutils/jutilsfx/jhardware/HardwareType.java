@@ -21,7 +21,7 @@ package org.jutils.jutilsfx.jhardware;
  */
 public enum HardwareType {
 
-    CPU, MEMORY, MOTHERBOARD, BIOS, OS, NETWORK;
+    CPU, MEMORY, MOTHERBOARD, BIOS, OS, NETWORK, DISPLAY, GRAPHICS_CARD;
 
     public static HardwareType fromLabel(String label) {
         if ("Memory".equals(label)) {
@@ -34,6 +34,10 @@ public enum HardwareType {
             return OS;
         } else if ("Network".equals(label)) {
             return NETWORK;
+        } else if ("Display".equals(label)) {
+            return DISPLAY;
+        } else if ("Graphics Card".equals(label)) {
+            return GRAPHICS_CARD;
         }
         //Default
         return CPU;

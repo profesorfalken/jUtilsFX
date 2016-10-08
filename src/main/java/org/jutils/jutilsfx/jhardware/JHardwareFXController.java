@@ -13,11 +13,16 @@
  */
 package org.jutils.jutilsfx.jhardware;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map.Entry;
 
 import org.jutils.jhardware.HardwareInfo;
 import org.jutils.jhardware.model.BiosInfo;
+import org.jutils.jhardware.model.Display;
+import org.jutils.jhardware.model.DisplayInfo;
+import org.jutils.jhardware.model.GraphicsCard;
+import org.jutils.jhardware.model.GraphicsCardInfo;
 import org.jutils.jhardware.model.MemoryInfo;
 import org.jutils.jhardware.model.MotherboardInfo;
 import org.jutils.jhardware.model.NetworkInfo;
@@ -34,6 +39,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.util.Callback;
+import javafx.util.Pair;
 
 /**
  * FXML Controller class
@@ -43,13 +49,13 @@ import javafx.util.Callback;
 public class JHardwareFXController {
 
     @FXML
-    private TableView propertiesTable;
+    private TableView<Pair<String, String>> propertiesTable;
 
     @FXML
-    private TableColumn propertyColumn;
+    private TableColumn<Pair<String, String>, String> propertyColumn;
 
     @FXML
-    private TableColumn valueColumn;
+    private TableColumn<Pair<String, String>, String> valueColumn;
 
     /**
      * Loads controller data
@@ -57,85 +63,92 @@ public class JHardwareFXController {
      * @param hardwareType type of hardwareinfo to load
      */
     public void loadData(HardwareType hardwareType) {
-        ObservableList<ObservableList<String>> tableItems = FXCollections.observableArrayList();
-
+        ObservableList<Pair<String, String>> tableItems = FXCollections.observableArrayList();
+        
         switch (hardwareType) {
             case CPU:
                 ProcessorInfo cpuInfo = HardwareInfo.getProcessorInfo();
-                /*tableItems.add(FXCollections.observableArrayList("Family", cpuInfo.getFamily()));
-                 tableItems.add(FXCollections.observableArrayList("Speed Mhz", cpuInfo.getMhz()));
-                 tableItems.add(FXCollections.observableArrayList("Model", cpuInfo.getModel()));
-                 tableItems.add(FXCollections.observableArrayList("Model Name", cpuInfo.getModelName()));
-                 tableItems.add(FXCollections.observableArrayList("Num cores", cpuInfo.getNumCores()));
-                 tableItems.add(FXCollections.observableArrayList("Stepping", cpuInfo.getStepping()));
-                 tableItems.add(FXCollections.observableArrayList("Temperature", cpuInfo.getTemperature()));
-                 tableItems.add(FXCollections.observableArrayList("Vendor Id", cpuInfo.getVendorId()));
-                 tableItems.add(FXCollections.observableArrayList("Cache Size", cpuInfo.getCacheSize()));*/
                 for (final Entry<String, String> entry : cpuInfo.getFullInfo().entrySet()) {
-                    tableItems.add(FXCollections.observableArrayList(entry.getKey(), entry.getValue()));
+                	tableItems.add(new Pair<String, String>(entry.getKey(), entry.getValue()));
                 }
                 break;
             case MEMORY:
-                MemoryInfo memoryInfo = HardwareInfo.getMemoryInfo();
-                /*tableItems.add(FXCollections.observableArrayList("Available Memory", memoryInfo.getAvailableMemory()));
-                 tableItems.add(FXCollections.observableArrayList("Free Memory", memoryInfo.getFreeMemory()));
-                 tableItems.add(FXCollections.observableArrayList("Total Memory", memoryInfo.getTotalMemory()));*/
+                MemoryInfo memoryInfo = HardwareInfo.getMemoryInfo();                
                 for (final Entry<String, String> entry : memoryInfo.getFullInfo().entrySet()) {
-                    tableItems.add(FXCollections.observableArrayList(entry.getKey(), entry.getValue()));
+                    tableItems.add(new Pair<String, String>(entry.getKey(), entry.getValue()));
                 }
                 break;
             case MOTHERBOARD:
-                MotherboardInfo motherboardInfo = HardwareInfo.getMotherboardInfo();
-                /*tableItems.add(FXCollections.observableArrayList("Manufacturer", motherboardInfo.getManufacturer()));
-                 tableItems.add(FXCollections.observableArrayList("Name", motherboardInfo.getName()));
-                 tableItems.add(FXCollections.observableArrayList("Version", motherboardInfo.getVersion()));*/
+                MotherboardInfo motherboardInfo = HardwareInfo.getMotherboardInfo();                
                 for (final Entry<String, String> entry : motherboardInfo.getFullInfo().entrySet()) {
-                    tableItems.add(FXCollections.observableArrayList(entry.getKey(), entry.getValue()));
+                    tableItems.add(new Pair<String, String>(entry.getKey(), entry.getValue()));
                 }
                 break;
             case BIOS:
-                BiosInfo biosInfo = HardwareInfo.getBiosInfo();
-                /*tableItems.add(FXCollections.observableArrayList("Date", biosInfo.getDate()));
-                 tableItems.add(FXCollections.observableArrayList("Manufacturer", biosInfo.getManufacturer()));
-                 tableItems.add(FXCollections.observableArrayList("Version", biosInfo.getVersion()));*/
+                BiosInfo biosInfo = HardwareInfo.getBiosInfo();               
                 for (final Entry<String, String> entry : biosInfo.getFullInfo().entrySet()) {
-                    tableItems.add(FXCollections.observableArrayList(entry.getKey(), entry.getValue()));
+                    tableItems.add(new Pair<String, String>(entry.getKey(), entry.getValue()));
                 }
                 break;
             case OS:
                 OSInfo osInfo = HardwareInfo.getOSInfo();
                 for (final Entry<String, String> entry : osInfo.getFullInfo().entrySet()) {
-                    tableItems.add(FXCollections.observableArrayList(entry.getKey(), entry.getValue()));
+                    tableItems.add(new Pair<String, String>(entry.getKey(), entry.getValue()));
                 }
                 break;
             case NETWORK:
                 NetworkInfo networkInfo = HardwareInfo.getNetworkInfo();
                 List<NetworkInterfaceInfo> networkInterfaces = networkInfo.getNetworkInterfaces();
                 for (final NetworkInterfaceInfo networkInterface : networkInterfaces) {
-                    tableItems.add(FXCollections.observableArrayList("Name", networkInterface.getName()));
-                    tableItems.add(FXCollections.observableArrayList("Type", networkInterface.getType()));
-                    tableItems.add(FXCollections.observableArrayList("IP v4", networkInterface.getIpv4()));
-                    tableItems.add(FXCollections.observableArrayList("IP v6", networkInterface.getIpv6()));
-                    tableItems.add(FXCollections.observableArrayList("Received Bytes", networkInterface.getReceivedBytes()));
-                    tableItems.add(FXCollections.observableArrayList("Received Packets", networkInterface.getReceivedPackets()));
-                    tableItems.add(FXCollections.observableArrayList("Transmitted Bytes", networkInterface.getTransmittedBytes()));
-                    tableItems.add(FXCollections.observableArrayList("Transmitted Packets", networkInterface.getTransmittedPackets()));
+                    tableItems.add(new Pair<String, String>("Name", networkInterface.getName()));
+                    tableItems.add(new Pair<String, String>("Type", networkInterface.getType()));
+                    tableItems.add(new Pair<String, String>("IP v4", networkInterface.getIpv4()));
+                    tableItems.add(new Pair<String, String>("IP v6", networkInterface.getIpv6()));
+                    tableItems.add(new Pair<String, String>("Received Bytes", networkInterface.getReceivedBytes()));
+                    tableItems.add(new Pair<String, String>("Received Packets", networkInterface.getReceivedPackets()));
+                    tableItems.add(new Pair<String, String>("Transmitted Bytes", networkInterface.getTransmittedBytes()));
+                    tableItems.add(new Pair<String, String>("Transmitted Packets", networkInterface.getTransmittedPackets()));
                 }
+                break;
+            case DISPLAY:
+            	DisplayInfo displayInfo = HardwareInfo.getDisplayInfo();
+            	List<Display> displayDevices = displayInfo.getDisplayDevices();
+            	
+            	for (final Display display : displayDevices) {
+            		tableItems.add(new Pair<String, String>("Name", display.getName()));
+            		tableItems.add(new Pair<String, String>("Current Resolution", display.getCurrentResolution()));
+            		tableItems.add(new Pair<String, String>("Supported Resolutions", Arrays.toString(display.getSupportedResolutions())));
+            		tableItems.add(new Pair<String, String>("Refresh Rate", display.getRefreshRate()));
+            	}            	
+                break;
+            case GRAPHICS_CARD:
+            	GraphicsCardInfo graphicsCardInfo = HardwareInfo.getGraphicsCardInfo();
+            	List<GraphicsCard> graphicsCards = graphicsCardInfo.getGraphicsCards();
+            	
+            	for (final GraphicsCard graphicsCard : graphicsCards) {
+            		tableItems.add(new Pair<String, String>("Name", graphicsCard.getName()));
+            		tableItems.add(new Pair<String, String>("Chip Type", graphicsCard.getChipType()));
+            		tableItems.add(new Pair<String, String>("DAC Type", graphicsCard.getDacType()));
+            		tableItems.add(new Pair<String, String>("Device Type", graphicsCard.getDeviceType()));
+            		tableItems.add(new Pair<String, String>("Fan Speed", graphicsCard.getFanSpeed()));
+            		tableItems.add(new Pair<String, String>("Manufacturer", graphicsCard.getManufacturer()));
+            		tableItems.add(new Pair<String, String>("Temperature", graphicsCard.getTemperature()));
+            	}            	
                 break;
         }
 
         propertiesTable.setItems(tableItems);
 
-        propertyColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ObservableList<String>, String>, ObservableValue<String>>() {
-            public ObservableValue<String> call(CellDataFeatures<ObservableList<String>, String> cdf) {
-                return new SimpleStringProperty(cdf.getValue().get(0));
+        propertyColumn.setCellValueFactory(new Callback<CellDataFeatures<Pair<String, String>, String>, ObservableValue<String>>() {
+            public ObservableValue<String> call(CellDataFeatures<Pair<String, String>, String> cdf) {
+                return new SimpleStringProperty(cdf.getValue().getKey());
             }
         });
 
-        valueColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ObservableList<String>, String>, ObservableValue<String>>() {
-            public ObservableValue<String> call(CellDataFeatures<ObservableList<String>, String> cdf) {
-                return new SimpleStringProperty(cdf.getValue().get(1));
+        valueColumn.setCellValueFactory(new Callback<CellDataFeatures<Pair<String, String>, String>, ObservableValue<String>>() {
+            public ObservableValue<String> call(CellDataFeatures<Pair<String, String>, String> cdf) {
+                return new SimpleStringProperty(cdf.getValue().getValue());
             }
         });
-    }
+    }   
 }
