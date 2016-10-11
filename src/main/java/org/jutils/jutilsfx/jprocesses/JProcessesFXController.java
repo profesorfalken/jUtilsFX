@@ -14,7 +14,6 @@
 package org.jutils.jutilsfx.jprocesses;
 
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import org.jutils.jprocesses.JProcesses;
@@ -29,6 +28,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.util.Callback;
 
@@ -38,56 +38,48 @@ import javafx.util.Callback;
  * @author Javier Garcia Alonso
  */
 public class JProcessesFXController implements Initializable {
-    @FXML private TableView processesTable;
-    @FXML private TableColumn pidColumn;
-    @FXML private TableColumn processNameColumn;
-    @FXML private TableColumn processTimeColumn;
+    @FXML private TableView<ProcessInfo> processesTable;
+    @FXML private TableColumn<ProcessInfo, String> pidColumn;
+    @FXML private TableColumn<ProcessInfo, String> processNameColumn;
+    @FXML private TableColumn<ProcessInfo, String> processTimeColumn;
     
     @FXML private Button btnKillProcess;
     
-    private ObservableList<ObservableList<String>> tableItems;
-
     /**
      * Initializes the controller class.
      * @param url
      * @param rb
      */
     public void initialize(URL url, ResourceBundle rb) {
-        tableItems = FXCollections.observableArrayList();
+        ObservableList<ProcessInfo> processesList = FXCollections.observableArrayList(JProcesses.getProcessList());
 
-        List<ProcessInfo> processesList = JProcesses.getProcessList();
-        
-        for(final ProcessInfo process : processesList) {
-            tableItems.add(FXCollections.observableArrayList(process.getPid(), process.getTime(), process.getName()));
-        }       
-        
-        processesTable.setItems(tableItems);
+        processesTable.setItems(processesList);
 
-        pidColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ObservableList<String>, String>, ObservableValue<String>>() {
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<ObservableList<String>, String> cdf) {
-                return new SimpleStringProperty(cdf.getValue().get(0));
+        pidColumn.setCellValueFactory(new Callback<CellDataFeatures<ProcessInfo, String>, ObservableValue<String>>() {
+            public ObservableValue<String> call(CellDataFeatures<ProcessInfo, String> cdf) {
+                return new SimpleStringProperty(cdf.getValue().getPid());
             }
         });
 
-        processNameColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ObservableList<String>, String>, ObservableValue<String>>() {
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<ObservableList<String>, String> cdf) {
-                return new SimpleStringProperty(cdf.getValue().get(2));
+        processNameColumn.setCellValueFactory(new Callback<CellDataFeatures<ProcessInfo, String>, ObservableValue<String>>() {
+            public ObservableValue<String> call(CellDataFeatures<ProcessInfo, String> cdf) {
+                return new SimpleStringProperty(cdf.getValue().getTime());
             }
         });
         
-        processTimeColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ObservableList<String>, String>, ObservableValue<String>>() {
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<ObservableList<String>, String> cdf) {
-                return new SimpleStringProperty(cdf.getValue().get(1));
+        processTimeColumn.setCellValueFactory(new Callback<CellDataFeatures<ProcessInfo, String>, ObservableValue<String>>() {
+            public ObservableValue<String> call(CellDataFeatures<ProcessInfo, String> cdf) {
+                return new SimpleStringProperty(cdf.getValue().getName());
             }
         });
     }    
     
     @FXML
     protected void handleBtnKillProcess(ActionEvent event) throws Exception {
-        ObservableList<String> selectedRow = (ObservableList<String>)processesTable.getSelectionModel().getSelectedItems().get(0);
-        JProcesses.killProcess(Integer.parseInt((String)selectedRow.get(0)));
+        ProcessInfo selectedRow = processesTable.getSelectionModel().getSelectedItem();
+        JProcesses.killProcess(Integer.parseInt(selectedRow.getPid()));
         
-        tableItems.remove(selectedRow);
+        processesTable.getItems().remove(selectedRow);        
     }
     
 }
