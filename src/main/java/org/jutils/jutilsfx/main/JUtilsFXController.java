@@ -70,8 +70,14 @@ public class JUtilsFXController implements Initializable {
 
     @FXML
     protected void handleJServicesAction(ActionEvent event) throws Exception {
-        Alert alert = new Alert(Alert.AlertType.WARNING, "Still not implemented", ButtonType.OK);
-        alert.show();
+    	AnchorPane panel = FXMLLoader.load(getClass().getResource("/org/jutils/jutilsfx/jservices/JServicesFX.fxml"));
+        panel.prefWidthProperty().bind(mainPanel.widthProperty());
+        panel.prefHeightProperty().bind(mainPanel.heightProperty());
+        
+        if (mainPanel.getChildren().size() > 0) {
+        	mainPanel.getChildren().remove(0);
+        }
+        mainPanel.getChildren().add(panel);
     }
 
     public void initialize(URL location, ResourceBundle resources) {

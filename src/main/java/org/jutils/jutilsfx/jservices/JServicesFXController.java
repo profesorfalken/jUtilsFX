@@ -3,9 +3,6 @@ package org.jutils.jutilsfx.jservices;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import org.jutils.jprocesses.JProcesses;
-import org.jutils.jprocesses.model.ProcessInfo;
-
 import com.profesorfalken.jservices.JServices;
 import com.profesorfalken.jservices.model.ServiceInfo;
 
