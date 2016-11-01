@@ -1,5 +1,5 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License");
+* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
@@ -23,10 +23,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 
 /**
  * FXML Controller class
@@ -35,52 +34,49 @@ import javafx.scene.layout.AnchorPane;
  */
 public class JUtilsFXController implements Initializable {
 
-    @FXML
-    private AnchorPane mainPanel;
+	@FXML
+	private AnchorPane mainPanel;
 
-    @FXML
-    protected void handleJHardwareAction(ActionEvent event) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/jutils/jutilsfx/jhardware/JHardwareFX.fxml"));
-        AnchorPane panel = loader.load();
-        panel.prefWidthProperty().bind(mainPanel.widthProperty());
-        panel.prefHeightProperty().bind(mainPanel.heightProperty());
+	@FXML
+	protected void handleJHardwareAction(ActionEvent event) throws Exception {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/jutils/jutilsfx/jhardware/JHardwareFX.fxml"));
+		AnchorPane panel = loader.load();
+		panel.prefWidthProperty().bind(mainPanel.widthProperty());
+		panel.prefHeightProperty().bind(mainPanel.heightProperty());
 
-        //Set hardwareinfo type to controller
-        JHardwareFXController controller = loader.<JHardwareFXController>getController();
-        controller.loadData(HardwareType.fromLabel(((Hyperlink) event.getSource()).getText()));
-        
-        if (mainPanel.getChildren().size() > 0) {
-        	mainPanel.getChildren().remove(0);
-        }
+		// Set hardwareinfo type to controller
+		JHardwareFXController controller = loader.<JHardwareFXController>getController();
+		controller.loadData(HardwareType.fromLabel(((Hyperlink) event.getSource()).getText()));
 
-        mainPanel.getChildren().add(panel);
-    }
+		activatePanel(panel);
+	}
 
-    @FXML
-    protected void handleJProcessesAction(ActionEvent event) throws Exception {
-        AnchorPane panel = FXMLLoader.load(getClass().getResource("/org/jutils/jutilsfx/jprocesses/JProcessesFX.fxml"));
-        panel.prefWidthProperty().bind(mainPanel.widthProperty());
-        panel.prefHeightProperty().bind(mainPanel.heightProperty());
-        
-        if (mainPanel.getChildren().size() > 0) {
-        	mainPanel.getChildren().remove(0);
-        }
-        mainPanel.getChildren().add(panel);
-    }
+	@FXML
+	protected void handleJProcessesAction(ActionEvent event) throws Exception {
+		AnchorPane panel = FXMLLoader.load(getClass().getResource("/org/jutils/jutilsfx/jprocesses/JProcessesFX.fxml"));
+		panel.prefWidthProperty().bind(mainPanel.widthProperty());
+		panel.prefHeightProperty().bind(mainPanel.heightProperty());
 
-    @FXML
-    protected void handleJServicesAction(ActionEvent event) throws Exception {
-    	AnchorPane panel = FXMLLoader.load(getClass().getResource("/org/jutils/jutilsfx/jservices/JServicesFX.fxml"));
-        panel.prefWidthProperty().bind(mainPanel.widthProperty());
-        panel.prefHeightProperty().bind(mainPanel.heightProperty());
-        
-        if (mainPanel.getChildren().size() > 0) {
-        	mainPanel.getChildren().remove(0);
-        }
-        mainPanel.getChildren().add(panel);
-    }
+		activatePanel(panel);
+	}
 
-    public void initialize(URL location, ResourceBundle resources) {
-        //Insert initialization here
-    }
+	@FXML
+	protected void handleJServicesAction(ActionEvent event) throws Exception {
+		AnchorPane panel = FXMLLoader.load(getClass().getResource("/org/jutils/jutilsfx/jservices/JServicesFX.fxml"));
+		panel.prefWidthProperty().bind(mainPanel.widthProperty());
+		panel.prefHeightProperty().bind(mainPanel.heightProperty());
+
+		activatePanel(panel);
+	}
+
+	public void initialize(URL location, ResourceBundle resources) {
+		// Insert initialization here
+	}
+
+	private void activatePanel(Pane panel) {
+		if (mainPanel.getChildren().size() > 0) {
+			mainPanel.getChildren().remove(0);
+		}
+		mainPanel.getChildren().add(panel);
+	}
 }
